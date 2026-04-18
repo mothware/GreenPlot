@@ -1,24 +1,24 @@
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: greenplot-db
+    container_name: thepatch-db
     environment:
-      POSTGRES_DB: greenplot
-      POSTGRES_USER: greenplot
-      POSTGRES_PASSWORD: greenplot_dev
+      POSTGRES_DB: thepatch
+      POSTGRES_USER: thepatch
+      POSTGRES_PASSWORD: thepatch_dev
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U greenplot"]
+      test: ["CMD-SHELL", "pg_isready -U thepatch"]
       interval: 5s
       timeout: 5s
       retries: 5
 
   redis:
     image: redis:7-alpine
-    container_name: greenplot-redis
+    container_name: thepatch-redis
     ports:
       - "6379:6379"
     volumes:
@@ -26,7 +26,7 @@ services:
 
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
-    container_name: greenplot-storage
+    container_name: thepatch-storage
     ports:
       - "10000:10000"
       - "10001:10001"

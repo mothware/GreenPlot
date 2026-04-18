@@ -19,15 +19,15 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
 
       setAuth: (token, userId, displayName) => {
-        localStorage.setItem('gp_token', token)
+        localStorage.setItem('tp_token', token)
         set({ token, userId, displayName, isAuthenticated: true })
       },
 
       clearAuth: () => {
-        localStorage.removeItem('gp_token')
+        localStorage.removeItem('tp_token')
         set({ token: null, userId: null, displayName: null, isAuthenticated: false })
       },
     }),
-    { name: 'gp-auth' }
+    { name: 'tp-auth' }
   )
 )

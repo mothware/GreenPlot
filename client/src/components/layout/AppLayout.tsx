@@ -23,7 +23,7 @@ export default function AppLayout() {
       {/* Sidebar */}
       <aside className="w-56 bg-white border-r border-paper-200 flex flex-col shrink-0">
         <div className="p-5 border-b border-paper-200">
-          <h1 className="font-display text-2xl font-bold text-leaf-700">GreenPlot</h1>
+          <h1 className="font-display text-2xl font-bold text-leaf-700">The Patch</h1>
           <p className="text-xs text-gray-500 mt-0.5">Garden Planning</p>
         </div>
 

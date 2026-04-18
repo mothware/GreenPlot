@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { plantsApi } from '../../api/plants'
 import type { Plant, PlantCategory } from '../../types'
 import clsx from 'clsx'
+import AddFromPacketModal from './AddFromPacketModal'
 
 const CATEGORIES: Array<{ value: PlantCategory | ''; label: string }> = [
   { value: '', label: 'All' },
@@ -23,6 +24,7 @@ export default function CatalogPage() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState<PlantCategory | ''>('')
   const [page, setPage] = useState(1)
+  const [showPacketModal, setShowPacketModal] = useState(false)
 
   const { data, isLoading } = useQuery({
     queryKey: ['plants', search, category, page],
@@ -39,7 +41,16 @@ export default function CatalogPage() {
 
   return (
     <div className="p-8">
-      <h2 className="font-display text-3xl font-bold text-gray-900 mb-6">Plant Catalog</h2>
+      {showPacketModal && (
+        <AddFromPacketModal plants={plants} onClose={() => setShowPacketModal(false)} />
+      )}
+
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="font-display text-3xl font-bold text-gray-900">Plant Catalog</h2>
+        <button className="btn-primary" onClick={() => setShowPacketModal(true)}>
+          + Log from seed packet
+        </button>
+      </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-4">

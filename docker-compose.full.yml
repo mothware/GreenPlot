@@ -6,14 +6,15 @@ services:
   api:
     build:
       context: .
-      dockerfile: src/GreenPlot.Api/Dockerfile
-    container_name: greenplot-api
+      dockerfile: src/ThePatch.Api/Dockerfile
+    container_name: thepatch-api
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=greenplot;Username=greenplot;Password=greenplot_dev"
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=thepatch;Username=thepatch;Password=thepatch_dev"
       Jwt__Key: "REPLACE_WITH_SECURE_KEY_MIN_32_CHARS_LONG_FOR_PRODUCTION"
-      Jwt__Issuer: "https://greenplot.app"
-      Jwt__Audience: "greenplot-client"
+      Jwt__Issuer: "https://thepatch.app"
+      Jwt__Audience: "thepatch-client"
+      Jwt__ExpiryHours: "4"
       AllowedOrigins__0: "http://localhost:5173"
     ports:
       - "5000:8080"
@@ -26,7 +27,7 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-    container_name: greenplot-client
+    container_name: thepatch-client
     environment:
       VITE_API_URL: "http://localhost:5000"
     ports:

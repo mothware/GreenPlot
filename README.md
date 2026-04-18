@@ -1,8 +1,8 @@
-# GreenPlot
+# The Patch
 
 **Garden Planning & Seed Starting Platform**
 
-GreenPlot helps home and community gardeners manage the full lifecycle of their garden: from selecting seed varieties and planning bed layouts, through seed starting and germination tracking, to in-season care and season-over-season analytics.
+The Patch helps home and family gardeners manage the full lifecycle of their garden: from selecting seed varieties and planning bed layouts, through seed starting and germination tracking, to in-season care and season-over-season analytics.
 
 ## Architecture
 
@@ -23,21 +23,21 @@ GreenPlot helps home and community gardeners manage the full lifecycle of their 
 ## Project Structure
 
 ```
-GreenPlot/
+ThePatch (repo: GreenPlot)
 ├── src/
-│   ├── GreenPlot.Domain/        # Entities, enums, domain exceptions
-│   ├── GreenPlot.Application/   # MediatR handlers, DTOs, commands, queries, interfaces
-│   ├── GreenPlot.Infrastructure/# EF Core DbContext, services (OpenFarm, USDA, storage)
-│   └── GreenPlot.Api/           # Controllers, auth, middleware, Hangfire, Program.cs
+│   ├── ThePatch.Domain/         # Entities, enums, domain exceptions
+│   ├── ThePatch.Application/    # MediatR handlers, DTOs, commands, queries, interfaces
+│   ├── ThePatch.Infrastructure/ # EF Core DbContext, services (OpenFarm, USDA, storage)
+│   └── ThePatch.Api/            # Controllers, auth, middleware, Hangfire, Program.cs
 ├── client/                      # React + TypeScript PWA
 │   └── src/
-│       ├── api/                 # Axios API clients (plants, gardens, plantings, calendar)
-│       ├── features/            # catalog, garden, bed-designer, calendar, auth
+│       ├── api/                 # Axios API clients (plants, varieties, gardens, plantings, calendar)
+│       ├── features/            # catalog (+ seed packet modal), garden, bed-designer, calendar, auth
 │       ├── stores/              # Zustand stores (auth, garden)
 │       └── types/               # Shared TypeScript types
 ├── docker-compose.yml           # Dev services: PostgreSQL, Redis, Azurite
 ├── docker-compose.full.yml      # Full stack with API + client containers
-└── GreenPlot.sln
+└── ThePatch.sln
 ```
 
 ## Local Development Setup
@@ -59,20 +59,20 @@ This starts PostgreSQL (port 5432), Redis (6379), and Azurite blob storage (1000
 ### 2. Configure secrets
 
 ```bash
-cd src/GreenPlot.Api
+cd src/ThePatch.Api
 dotnet user-secrets set "Jwt:Key" "your-secret-key-at-least-32-characters-long"
 ```
 
 ### 3. Run the API
 
 ```bash
-cd src/GreenPlot.Api
+cd src/ThePatch.Api
 dotnet run
 ```
 
 API available at `http://localhost:5000`. Swagger UI at `http://localhost:5000/swagger`.
 
-The database schema is created automatically on first run (`EnsureCreated`). Run the OpenFarm import job from the Hangfire dashboard to seed the plant catalog.
+The database schema is created automatically on first run (`EnsureCreated`). Seed the plant catalog by triggering the **ImportOpenFarmDataJob** and **ImportUsdaPlantsJob** from the Hangfire dashboard at `/hangfire`. OpenFarm covers ~80 crops; USDA enrichment fills in scientific names, families, and hardiness zones.
 
 ### 4. Run the frontend
 
@@ -85,17 +85,23 @@ npm run dev
 
 Frontend available at `http://localhost:5173`.
 
-## Open Questions (from spec)
+## Decisions made
 
-The following decisions are needed before Phase 1 ships — see §10 of the requirements document:
+| Decision | Choice |
+|---|---|
+| Audience | Personal / family use — no billing, multi-user architecture retained |
+| Name | **The Patch** |
+| Seed catalog depth | Deep — full OpenFarm crop list + USDA PLANTS taxonomy enrichment |
+| Companion rules | All rules shipped with Traditional / Research-supported / Community labels |
+| Photo storage | Per-user quota (default 10 GB, configurable via `Storage:PhotoQuotaGb`); tiers deferred |
+| Variety contributions | Users can add varieties from seed packets (inventory tracked as SeedLots) |
+| Auth | Email + password, JWT 4-hour expiry — same pattern as NarthexLife |
+| iOS wrapper | Deferred to Phase 5 |
 
-1. **Audience** — Personal, SaaS, or open source? Affects auth complexity and billing.
-2. **Monetization** — Freemium tier boundaries if SaaS.
-3. **Seed catalog depth** — 50 crops (MVP) or 200+ at launch?
-4. **Companion planting rigor** — Ship all traditional rules with confidence labels, or research-supported only?
-5. **Photo storage quotas** — Per-user limit model.
-6. **Community contributions** — Allow user-submitted variety data?
-7. **iOS native wrapper** — Capacitor in Phase 5?
+## Still open
+
+- Domain name / trademark for "The Patch"
+- iOS-specific features (Capacitor in Phase 5?)
 
 ## Development Roadmap
 

@@ -29,7 +29,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-paper-50 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <h1 className="font-display text-4xl font-bold text-leaf-700">GreenPlot</h1>
+          <h1 className="font-display text-4xl font-bold text-leaf-700">The Patch</h1>
           <p className="text-gray-500 mt-2 text-sm">Plan your garden, season by season</p>
         </div>
 
