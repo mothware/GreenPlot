@@ -52,3 +52,25 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# User secrets
+**/appsettings.Local.json
+**/secrets.json
+
+# .NET user secrets
+**/.UserSecrets/
+
+# Frontend
+client/node_modules/
+client/dist/
+client/.env.local
+client/.env.*.local
+
+# Docker volumes
+.docker/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo

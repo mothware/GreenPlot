@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: greenplot-db
+    environment:
+      POSTGRES_DB: greenplot
+      POSTGRES_USER: greenplot
+      POSTGRES_PASSWORD: greenplot_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U greenplot"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: greenplot-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: greenplot-storage
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    volumes:
+      - azurite_data:/data
+    command: azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0
+
+volumes:
+  postgres_data:
+  redis_data:
+  azurite_data:
